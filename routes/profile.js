@@ -1,36 +1,18 @@
-'use strict';
-
 const express = require('express');
+const UserController = require('@/controllers/user');
+const CommentController = require('@/controllers/comment');
+
 const router = express.Router();
 
-const profiles = [
-  {
-    "id": 1,
-    "name": "A Martinez",
-    "description": "Adolph Larrue Martinez III.",
-    "mbti": "ISFJ",
-    "enneagram": "9w3",
-    "variant": "sp/so",
-    "tritype": 725,
-    "socionics": "SEE",
-    "sloan": "RCOEN",
-    "psyche": "FEVL",
-    "image": "https://soulverse.boo.world/images/1.png",
-  }
-];
+module.exports = () => {
+  // Comment Routes
+  router.get('/users/:userId/comments', CommentController.findByUserId);
+  router.post('/users/:userId/comments', CommentController.create);
+  router.post('/users/:userId/:commentId/like', CommentController.likeComment);
 
-module.exports = function() {
-
-  router.get('/*', function(_req, res) {
-    res.render('profile_template', {
-      profile: profiles[0],
-    });
-  });
-
-  router.post("/", function(req, res){
-      
-  })
-
+  // User Routes
+  router.get('/users/:userId', UserController.findById);
+  router.post('/users', UserController.create);
+  router.get('/users', UserController.get);
   return router;
-}
-
+};
