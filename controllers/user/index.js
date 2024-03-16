@@ -25,8 +25,8 @@ module.exports = {
     try {
       const user = await User.findById(req.params.userId).lean();
 
-      if (user.length === 0) {
-        return res.status(404).json({ error: "User doesn' exist" });
+      if (!user) {
+        return res.status(404).json({ message: "User doesn't exist" });
       }
 
       return res.render('profile_template', {

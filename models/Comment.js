@@ -92,7 +92,7 @@ const CommentSchema = Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
+  }
 );
 
 CommentSchema.virtual('likedBy', {
@@ -101,6 +101,7 @@ CommentSchema.virtual('likedBy', {
   foreignField: 'commentId',
 });
 
-const Comment = mongoose.model('Comment', CommentSchema);
+const Comment =
+  mongoose.models.Comment || mongoose.model('Comment', CommentSchema);
 
 module.exports = Comment;

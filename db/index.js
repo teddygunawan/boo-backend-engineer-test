@@ -24,13 +24,15 @@ async function dbConnect() {
 }
 
 async function getDbInstance() {
-  return mongooseInstance || dbConnect();
+  const instance = await dbConnect();
+
+  return instance;
 }
 
 async function dbCleanup() {
-  if (process.env.NODE_ENV === 'development') {
-    stopMemoryDb();
-  }
+  stopMemoryDb();
+  await mongoose.disconnect();
+  mongooseInstance = null;
 }
 
 module.exports = { dbConnect, getDbInstance, dbCleanup };

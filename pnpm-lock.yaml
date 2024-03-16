@@ -28,7 +28,7 @@ dependencies:
 
 devDependencies:
   chai:
-    specifier: ^4.4.1
+    specifier: ^4
     version: 4.4.1
   eslint:
     specifier: ^8.57.0

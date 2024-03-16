@@ -17,6 +17,8 @@ const CommentLikeSchema = new Schema(
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-const CommentLike = mongoose.model('CommentLike', CommentLikeSchema);
+const CommentLike =
+  mongoose.models.CommentLike ||
+  mongoose.model('CommentLike', CommentLikeSchema);
 
 module.exports = CommentLike;

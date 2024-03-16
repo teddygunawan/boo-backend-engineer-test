@@ -1,15 +1,35 @@
+const User = require('@/models/User');
 const CommentLike = require('@/models/CommentLike');
 const Comment = require('@/models/Comment');
 const { ObjectId } = require('mongoose').Types;
 
+async function validateUser(userIdList) {
+  const userList = await User.find({ _id: { $in: userIdList } }, '_id').lean();
+
+  return userList.length === userIdList.length;
+}
+
 module.exports = {
   async create(req, res) {
     try {
+      const userIdList = [req.body.commenter_id, req.body.user_id];
+
+      if (!(await validateUser(userIdList))) {
+        return res
+          .status(400)
+          .json({ error: 'Invalid user commenter/user ids' });
+      }
       const newComment = new Comment(req.body);
       const savedComment = await newComment.save();
 
       return res.status(201).json(savedComment);
     } catch (error) {
+      if (error.name === 'ValidationError') {
+        return res
+          .status(400)
+          .json({ error: error.name, message: error.message });
+      }
+
       console.error(error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -70,7 +90,7 @@ module.exports = {
     try {
       const comment = await Comment.findById(req.params.commentId);
       const commentId = comment.id;
-      const userId = req.body.userId;
+      const { userId } = req.body;
 
       if (!comment) {
         return res.status(404).json({ error: 'Comment not found' });
@@ -94,7 +114,10 @@ module.exports = {
       });
       await newLike.save();
 
-      return res.json({ commentLike: newLike, message: 'Comment liked successfully' });
+      return res.json({
+        commentLike: newLike,
+        message: 'Comment liked successfully',
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Internal Server Error' });
