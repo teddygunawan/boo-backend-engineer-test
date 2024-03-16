@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 require('dotenv').config();
 require('module-alias/register');
 
-const { dbConnect, dbCleanup, getDbInstance } = require('./db');
+const { dbConnect, dbCleanup } = require('./db');
 
 const app = express();
 const port = process.env.PORT || 3000;

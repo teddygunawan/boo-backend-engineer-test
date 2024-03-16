@@ -119,11 +119,11 @@ describe('Comment Controller Integration Tests', () => {
 
       await CommentController.create(
         { body: firstCommentMock },
-        { status: sinon.stub().returnsThis(), json: firstJsonStub }
+        { status: sinon.stub().returnsThis(), json: firstJsonStub },
       );
       await CommentController.create(
         { body: secondCommentMock },
-        { status: sinon.stub().returnsThis(), json: sinon.stub() }
+        { status: sinon.stub().returnsThis(), json: sinon.stub() },
       );
 
       await CommentController.likeComment(
@@ -135,7 +135,7 @@ describe('Comment Controller Integration Tests', () => {
             commentId: firstJsonStub.firstCall.args[0].id,
           },
         },
-        { status: sinon.stub().returnsThis(), json: sinon.stub() }
+        { status: sinon.stub().returnsThis(), json: sinon.stub() },
       );
     });
 

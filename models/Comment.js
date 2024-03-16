@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 // Define schema
@@ -92,7 +93,7 @@ const CommentSchema = Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 CommentSchema.virtual('likedBy', {
